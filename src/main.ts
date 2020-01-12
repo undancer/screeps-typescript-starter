@@ -1,5 +1,6 @@
 import { ErrorMapper } from "utils/ErrorMapper";
 import { roleHarvester } from "./roles/roleHarvester";
+import { roleUpgrader } from "./roles/roleUpgrader";
 
 
 // log the latest commit ID from git
@@ -26,14 +27,15 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   // 开始逻辑
 
-  for (const spawnsKey in Game.spawns) {
-    Game.spawns[spawnsKey].spawnCreep([WORK, CARRY, MOVE], "Harvester1");
-  }
-
   for (const creepsKey in Game.creeps) {
     const creep = Game.creeps[creepsKey];
 
-    roleHarvester(creep);
+    if(creep.memory.role === 'harvester') {
+      roleHarvester(creep);
+    }
+    if(creep.memory.role === 'upgrader') {
+      roleUpgrader(creep);
+    }
 
   }
 
