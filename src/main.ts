@@ -1,6 +1,7 @@
 import { ErrorMapper } from "utils/ErrorMapper";
 import { roleHarvester } from "./roles/roleHarvester";
 import { roleUpgrader } from "./roles/roleUpgrader";
+import { roleBuilder } from "./roles/roleBuilder";
 
 
 // log the latest commit ID from git
@@ -26,15 +27,21 @@ export const loop = ErrorMapper.wrapLoop(() => {
   }
 
   // 开始逻辑
+  for (const name in Game.rooms) {
+    console.log("Room \"" + name + "\" has " + Game.rooms[name].energyAvailable + " energy");
+  }
 
   for (const creepsKey in Game.creeps) {
     const creep = Game.creeps[creepsKey];
 
-    if(creep.memory.role === 'harvester') {
+    if (creep.memory.role === "harvester") {
       roleHarvester(creep);
     }
-    if(creep.memory.role === 'upgrader') {
+    if (creep.memory.role === "upgrader") {
       roleUpgrader(creep);
+    }
+    if (creep.memory.role === "builder") {
+      roleBuilder(creep);
     }
 
   }
