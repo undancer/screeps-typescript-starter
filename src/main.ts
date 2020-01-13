@@ -80,6 +80,22 @@ export const loop = ErrorMapper.wrapLoop(() => {
       { align: "left", opacity: 0.8 });
   }
 
+
+  const tower = Game.getObjectById("8a20440937be485db2f9973d" as Id<StructureTower>);
+  if (tower) {
+    const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+      filter: (structure) => structure.hits < structure.hitsMax
+    });
+    if (closestDamagedStructure) {
+      tower.repair(closestDamagedStructure);
+    }
+
+    const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    if (closestHostile) {
+      tower.attack(closestHostile);
+    }
+  }
+
   for (const creepsKey in Game.creeps) {
     const creep = Game.creeps[creepsKey];
 
