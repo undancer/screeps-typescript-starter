@@ -45,6 +45,32 @@ export const loop = ErrorMapper.wrapLoop(() => {
     } as SpawnOptions);
   }
 
+  const upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === "upgrader");
+  console.log("Upgraders: " + upgraders.length);
+
+  if (upgraders.length < 2) {
+    const newName = "Upgrader" + Game.time;
+    console.log("Spawning new Upgrader: " + newName);
+    Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], newName, {
+      memory: {
+        role: "upgrader"
+      }
+    } as SpawnOptions);
+  }
+
+  const builders = _.filter(Game.creeps, (creep) => creep.memory.role === "builder");
+  console.log("Builders: " + harvesters.length);
+
+  if (builders.length < 2) {
+    const newName = "Builder" + Game.time;
+    console.log("Spawning new builder: " + newName);
+    Game.spawns.Spawn1.spawnCreep([WORK, CARRY, MOVE], newName, {
+      memory: {
+        role: "builder"
+      }
+    } as SpawnOptions);
+  }
+
   if (Game.spawns.Spawn1.spawning) {
     const spawningCreep = Game.creeps[Game.spawns.Spawn1.spawning.name];
     Game.spawns.Spawn1.room.visual.text(
